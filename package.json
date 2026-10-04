@@ -3,6 +3,11 @@
 	"version": "1.0.0",
 	"private": true,
 	"type": "module",
+	"dependencies": {
+		"@stylistic/eslint-plugin": "^5.10.0",
+		"eslint-plugin-solid": "^0.18.0",
+		"typescript-eslint": "^8.64.0"
+	},
 	"peerDependencies": {
 		"eslint": ">=9"
 	}

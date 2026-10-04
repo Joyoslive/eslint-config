@@ -1,0 +1,56 @@
+import type { Config } from '../types.ts';
+import mergeConfigs from '../util/merge-configs.ts';
+import prefixKeys from '../util/prefix-keys.ts';
+
+const buildStylisticJsxConfig = (config: Config, options?: { typescript?: boolean }): Config => {
+	return mergeConfigs(
+		config,
+		{
+			files: [...['**/*.jsx'], ...options?.typescript === true ? ['**/*.tsx'] : []],
+			rules: prefixKeys('stylistic/', getRules())
+		}
+	);
+};
+
+export default buildStylisticJsxConfig;
+
+const getRules = (): Exclude<Config['rules'], undefined> => {
+	return {
+		'jsx-child-element-spacing': ['warn'],
+		'jsx-closing-bracket-location': ['warn', 'tag-aligned'],
+		'jsx-closing-tag-location': ['warn', 'tag-aligned'],
+		'jsx-curly-brace-presence': ['warn', 'never'],
+		'jsx-curly-newline': ['warn'],
+		'jsx-curly-spacing': ['warn', 'never'],
+		'jsx-equals-spacing': ['warn', 'never'],
+		'jsx-first-prop-new-line': ['warn', 'multiline'],
+		'jsx-function-call-newline': ['warn', 'multiline'],
+		'jsx-indent-props': ['warn', 'tab'],
+		'jsx-max-props-per-line': ['warn', { maximum: 3 }],
+		'jsx-one-expression-per-line': ['warn', { allow: 'single-line' }],
+		'jsx-quotes': ['warn', 'prefer-single'],
+		'jsx-self-closing-comp': ['off'], // Covered by solid-eslint
+		'jsx-tag-spacing': [
+			'warn',
+			{
+				closingSlash: 'never',
+				beforeSelfClosing: 'never',
+				afterOpening: 'never',
+				beforeClosing: 'never'
+			}
+		],
+		'jsx-wrap-multilines': [
+			'warn',
+			{
+				declaration: 'parens-new-line',
+				assignment: 'parens-new-line',
+				return: 'parens-new-line',
+				arrow: 'parens-new-line',
+				condition: 'parens-new-line',
+				logical: 'parens-new-line',
+				prop: 'parens-new-line',
+				propertyValue: 'parens-new-line'
+			}
+		]
+	};
+};
