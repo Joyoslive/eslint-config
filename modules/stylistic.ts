@@ -61,13 +61,13 @@ const getRules = (): Rules => {
 		'multiline-comment-style': ['off'],
 		'multiline-ternary': ['off'],
 		'new-parens': ['off'],
-		'newline-per-chained-call': ['warn', { ignoreChainWithDepth: 1 }],
+		'newline-per-chained-call': ['warn', { ignoreChainWithDepth: 2 }],
 		'no-confusing-arrow': ['error', { allowParens: true }],
 		'no-extra-parens': [
-			'warn', { 
-				nestedBinaryExpression: false,
+			'warn', 'all', {
+				nestedBinaryExpressions: false,
 				ternaryOperandBinaryExpressions: false,
-				ignoreJSX: 'multi-line' 
+				ignoreJSX: 'multi-line'
 			}
 		],
 		'no-extra-semi': ['warn'],

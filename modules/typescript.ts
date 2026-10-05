@@ -18,7 +18,7 @@ const buildTsConfig = (prev: Readonly<Config>) => {
 
 	newConfig.languageOptions = {
 		parser: tseslint.parser,
-		parserOptions: { projectService: true, allowDefaultProject: ['eslint.config.mjs'] }
+		parserOptions: { projectService: { allowDefaultProject: ['eslint.config.mjs'] } }
 	};
 
 	return newConfig;
@@ -58,7 +58,7 @@ const getRules = (): Exclude<Config['rules'], undefined> => {
 		'await-thenable': ['warn'],
 		'ban-ts-comment': ['off'],
 		'ban-tslint-comment': ['off'],
-		'class-literal-property-style': ['warn', 'getters'],
+		'class-literal-property-style': ['warn', 'fields'],
 		'class-methods-use-this': ['off'],
 		'consistent-generic-constructors': ['off'],
 		'consistent-indexed-object-style': ['warn', 'record'],
