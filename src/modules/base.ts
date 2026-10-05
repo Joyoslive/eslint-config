@@ -2,7 +2,10 @@ import type { Config } from '../../types.ts';
 
 const createBaseConfig = (): Config => {
 	return {
-		files: ['**/*.js', '**/*.mjs'],
+		files: ['**/*.js', '**/*.mjs', '**/*.jsx'],
+		languageOptions: {
+			parserOptions: { ecmaFeatures: { jsx: true } }
+		},
 		rules: {
 			// Possible Problems
 			'array-callback-return': ['error'],

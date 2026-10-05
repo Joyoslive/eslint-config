@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'vitest';
+import { Linter } from 'eslint';
 import buildConfig from '../src/joy-eslint.ts';
 
 const combinations = [
 	{
 		label: 'base',
 		modules: { base: true, typescript: false, stylistic: false, solid: false },
-		expectedFiles: ['**/*.js', '**/*.mjs']
+		expectedFiles: ['**/*.js', '**/*.mjs', '**/*.jsx']
 	},
 	{
 		label: 'typescript',
@@ -25,7 +26,7 @@ const combinations = [
 	{
 		label: 'all modules',
 		modules: { base: true, typescript: true, stylistic: true, solid: true },
-		expectedFiles: ['**/*.js', '**/*.mjs', '**/*.ts', '**/*.tsx', '**/*.jsx']
+		expectedFiles: ['**/*.js', '**/*.mjs', '**/*.jsx', '**/*.ts', '**/*.tsx']
 	},
 	{
 		label: 'no modules',
@@ -36,6 +37,17 @@ const combinations = [
 const typescriptCombinations = combinations.filter(({ modules }) => modules.typescript);
 
 describe('buildConfig', () => {
+	it('parses JSX and applies core rules in JSX files with only base enabled', () => {
+		const messages = new Linter().verify(
+			'const element = <div title="hello" />; debugger;',
+			[buildConfig({ base: true })],
+			{ filename: 'component.jsx' }
+		);
+
+		expect(messages.some((message) => message.fatal)).toBe(false);
+		expect(messages.some((message) => message.ruleId === 'no-debugger')).toBe(true);
+	});
+
 	it.each(combinations)('produces the same config on repeated calls: $label', ({ modules }) => {
 		expect(buildConfig(modules)).toEqual(buildConfig(modules));
 	});

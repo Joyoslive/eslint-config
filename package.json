@@ -1,6 +1,6 @@
 {
 	"name": "@joyosdev/eslint",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Just my personal eslint config, a constant work-in-progress",
 	"type": "module",
 	"main": "./dist/index.js",
@@ -11,7 +11,12 @@
 			"import": "./dist/index.js"
 		}
 	},
-	"files": ["dist/index.js", "dist/index.d.ts", "dist/types.d.ts", "dist/src"],
+	"files": [
+		"dist/index.js",
+		"dist/index.d.ts",
+		"dist/types.d.ts",
+		"dist/src"
+	],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/Joyoslive/eslint-config.git"

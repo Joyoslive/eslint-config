@@ -7,7 +7,7 @@ import buildSolidConfig from '../src/modules/solid.ts';
 
 describe('module config builders', () => {
 	it.each([
-		{ name: 'base', build: createBaseConfig, files: ['**/*.js', '**/*.mjs'] },
+		{ name: 'base', build: createBaseConfig, files: ['**/*.js', '**/*.mjs', '**/*.jsx'] },
 		{ name: 'typescript', build: buildTsConfig, files: ['**/*.ts', '**/*.tsx'] },
 		{ name: 'stylistic', build: buildStylisticConfig, files: ['**/*.js', '**/*.mjs', '**/*.ts', '**/*.jsx', '**/*.tsx'] },
 		{ name: 'stylistic JSX', build: buildStylisticJsxConfig, files: ['**/*.jsx', '**/*.tsx'] },

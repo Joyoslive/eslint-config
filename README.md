@@ -28,7 +28,7 @@ Modules are opt-in; omitted options and `false` disable them.
 
 | Option | Includes | File patterns |
 | --- | --- | --- |
-| `base` | Core ESLint rules | `**/*.js`, `**/*.mjs` |
+| `base` | Core ESLint rules | `**/*.js`, `**/*.mjs`, `**/*.jsx` |
 | `typescript` | TypeScript parser and rules, including type-aware rules | `**/*.ts`, `**/*.tsx` |
 | `stylistic` | Stylistic rules | `**/*.js`, `**/*.mjs`, `**/*.ts`, `**/*.jsx`, `**/*.tsx` |
 | `solid` | Solid rules | `**/*.jsx`, `**/*.tsx` |
