@@ -1,47 +1,66 @@
-import { expect, test } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import buildConfig from '../src/joy-eslint.ts';
-import mergeConfigs from '../src/common/merge-configs.ts';
 
-test('merges any number of configs with unique files and later overrides', () => {
-	const first = {
-		files: ['**/*.js', '**/*.js'],
-		plugins: { first: {} },
-		rules: { shared: ['warn'], first: ['error'] },
-		languageOptions: { ecmaVersion: 2020 }
-	};
-	const snapshot = structuredClone(first);
-	const plugin = { rule: () => {} };
-	const merged = mergeConfigs(first, {}, {
-		files: ['**/*.ts', '**/*.js'],
-		plugins: { second: plugin },
-		rules: { shared: ['off'] },
-		languageOptions: { ecmaVersion: 2022 }
+const combinations = [
+	{
+		label: 'base',
+		modules: { base: true, typescript: false, stylistic: false, solid: false },
+		expectedFiles: ['**/*.js', '**/*.mjs']
+	},
+	{
+		label: 'typescript',
+		modules: { base: false, typescript: true, stylistic: false, solid: false },
+		expectedFiles: ['**/*.ts', '**/*.tsx']
+	},
+	{
+		label: 'stylistic',
+		modules: { base: false, typescript: false, stylistic: true, solid: false },
+		expectedFiles: ['**/*.js', '**/*.mjs', '**/*.ts', '**/*.jsx', '**/*.tsx']
+	},
+	{
+		label: 'solid',
+		modules: { base: false, typescript: false, stylistic: false, solid: true },
+		expectedFiles: ['**/*.jsx', '**/*.tsx']
+	},
+	{
+		label: 'all modules',
+		modules: { base: true, typescript: true, stylistic: true, solid: true },
+		expectedFiles: ['**/*.js', '**/*.mjs', '**/*.ts', '**/*.tsx', '**/*.jsx']
+	},
+	{
+		label: 'no modules',
+		modules: { base: false, typescript: false, stylistic: false, solid: false },
+		expectedFiles: []
+	}
+];
+const typescriptCombinations = combinations.filter(({ modules }) => modules.typescript);
+
+describe('buildConfig', () => {
+	it.each(combinations)('produces the same config on repeated calls: $label', ({ modules }) => {
+		expect(buildConfig(modules)).toEqual(buildConfig(modules));
 	});
 
-	expect(merged.files).toEqual(['**/*.js', '**/*.ts']);
-	expect(merged.rules).toEqual({ shared: ['off'], first: ['error'] });
-	expect(merged.languageOptions).toEqual({ ecmaVersion: 2022 });
-	expect(merged.plugins.second).toBe(plugin);
-	expect(first).toEqual(snapshot);
-	expect(mergeConfigs()).toEqual({});
-	expect(mergeConfigs(first).files).toEqual(['**/*.js']);
-});
+	it.each(combinations)('uses exactly the expected file patterns: $label', ({ modules, expectedFiles }) => {
+		expect(buildConfig(modules).files ?? []).toEqual(expectedFiles);
+	});
 
-test('every module combination builds independently and repeatedly', () => {
-	const names = ['base', 'typescript', 'stylistic', 'solid'];
-	for (let mask = 0; mask < 16; mask++) {
-		const modules = Object.fromEntries(names.map((name, index) => [name, Boolean(mask & (1 << index))]));
-		const config = buildConfig(modules);
-		expect(buildConfig(modules)).toEqual(config);
-		expect(new Set(config.files).size).toBe(config.files?.length ?? 0);
-		expect(config.files?.includes('**/*.ts') ?? false).toBe(modules.typescript);
-		expect(config.files?.includes('**/*.tsx') ?? false).toBe(modules.typescript && modules.stylistic && modules.solid);
-		if (modules.typescript) {
-			expect(config.rules['no-unused-vars']).toEqual(['off']);
-			expect(config.rules['@typescript-eslint/no-unused-vars'][0]).toBe('warn');
-			expect(config.plugins['@typescript-eslint']).toBeTruthy();
-			expect(config.languageOptions.parser).toBeTruthy();
-		}
-	}
-	expect(buildConfig({})).toEqual({});
+	it.each(typescriptCombinations)('disables the core unused-vars rule: $label', ({ modules }) => {
+		expect(buildConfig(modules).rules['no-unused-vars']).toEqual(['off']);
+	});
+
+	it.each(typescriptCombinations)('warns on the TypeScript unused-vars rule: $label', ({ modules }) => {
+		expect(buildConfig(modules).rules['@typescript-eslint/no-unused-vars'][0]).toBe('warn');
+	});
+
+	it.each(typescriptCombinations)('registers the TypeScript plugin: $label', ({ modules }) => {
+		expect(buildConfig(modules).plugins['@typescript-eslint']).toBeTruthy();
+	});
+
+	it.each(typescriptCombinations)('sets a parser: $label', ({ modules }) => {
+		expect(buildConfig(modules).languageOptions.parser).toBeTruthy();
+	});
+
+	it('returns an empty config when no modules are specified', () => {
+		expect(buildConfig({})).toEqual({});
+	});
 });

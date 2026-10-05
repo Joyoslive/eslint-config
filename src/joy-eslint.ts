@@ -22,7 +22,7 @@ const buildConfig = (modules: Partial<Record<ModuleName, boolean>>): Config => {
 	}
 
 	if (modules.stylistic && modules.solid /* || modules.react */) {
-		configs.push(buildStylisticJsxConfig({ typescript: modules.typescript === true }));
+		configs.push(buildStylisticJsxConfig());
 	}
 
 	if (modules.solid === true) {

@@ -4,7 +4,7 @@ import tseslint from 'typescript-eslint';
 
 const buildTsConfig = (): Config => {
 	return {
-		files: ['**/*.ts'],
+		files: ['**/*.ts', '**/*.tsx'],
 		plugins: { '@typescript-eslint': tseslint.plugin },
 		rules: {
 			...getShadowedRules(),

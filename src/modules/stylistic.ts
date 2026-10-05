@@ -4,6 +4,7 @@ import prefixKeys from '../common/prefix-keys.ts';
 
 const buildStylisticConfig = (): Config => {
 	return {
+		files: ['**/*.js', '**/*.mjs', '**/*.ts', '**/*.jsx', '**/*.tsx'],
 		plugins: { stylistic },
 		rules: prefixKeys('stylistic/', getRules())
 	};

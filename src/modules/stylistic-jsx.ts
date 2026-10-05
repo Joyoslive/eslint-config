@@ -1,9 +1,9 @@
 import type { Config } from '../../types.ts';
 import prefixKeys from '../common/prefix-keys.ts';
 
-const buildStylisticJsxConfig = (options?: { typescript?: boolean }): Config => {
+const buildStylisticJsxConfig = (): Config => {
 	return {
-		files: ['**/*.jsx', ...options?.typescript === true ? ['**/*.tsx'] : []],
+		files: ['**/*.jsx', '**/*.tsx'],
 		rules: prefixKeys('stylistic/', getRules())
 	};
 };

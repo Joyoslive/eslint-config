@@ -4,6 +4,7 @@ import prefixKeys from '../common/prefix-keys.ts';
 
 const buildSolidConfig = (): Config => {
 	return {
+		files: ['**/*.jsx', '**/*.tsx'],
 		plugins: { solid },
 		rules: prefixKeys('solid/', getRules())
 	};
