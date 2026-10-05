@@ -1,12 +1,30 @@
 {
 	"name": "@joyosdev/eslint",
 	"version": "1.0.0",
-	"private": true,
+	"description": "Composable ESLint configuration for JavaScript, TypeScript, and Solid.",
 	"type": "module",
-	"exports": "./index.ts",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"files": ["dist/index.js", "dist/index.d.ts", "dist/types.d.ts", "dist/src"],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Joyoslive/eslint-config.git"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
 	"scripts": {
 		"build": "vite build && tsc",
 		"typecheck": "tsc --noEmit",
+		"prepack": "npm run build",
+		"prepublishOnly": "npm test",
 		"test": "vitest run",
 		"test:watch": "vitest"
 	},
