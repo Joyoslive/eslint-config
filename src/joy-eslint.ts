@@ -2,9 +2,9 @@ import createBaseConfig from './modules/base.ts';
 import buildStylisticConfig from './modules/stylistic.ts';
 import buildStylisticJsxConfig from './modules/stylistic-jsx.ts';
 import buildTsConfig from './modules/typescript.ts';
-import type { ModuleName, Config } from './types.ts';
+import type { ModuleName, Config } from '../types.ts';
 import buildSolidConfig from './modules/solid.ts';
-import mergeConfigs from './util/merge-configs.ts';
+import mergeConfigs from './common/merge-configs.ts';
 
 const buildConfig = (modules: Partial<Record<ModuleName, boolean>>): Config => {
 	const configs: Config[] = [];

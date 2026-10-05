@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
-import buildConfig from '../joy-eslint.ts';
-import mergeConfigs from '../util/merge-configs.ts';
+import buildConfig from '../src/joy-eslint.ts';
+import mergeConfigs from '../src/common/merge-configs.ts';
 
 test('merges any number of configs with unique files and later overrides', () => {
 	const first = {

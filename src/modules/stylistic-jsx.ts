@@ -1,5 +1,5 @@
-import type { Config } from '../types.ts';
-import prefixKeys from '../util/prefix-keys.ts';
+import type { Config } from '../../types.ts';
+import prefixKeys from '../common/prefix-keys.ts';
 
 const buildStylisticJsxConfig = (options?: { typescript?: boolean }): Config => {
 	return {

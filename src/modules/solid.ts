@@ -1,6 +1,6 @@
-import type { Config } from '../types.ts';
+import type { Config } from '../../types.ts';
 import solid from 'eslint-plugin-solid';
-import prefixKeys from '../util/prefix-keys.ts';
+import prefixKeys from '../common/prefix-keys.ts';
 
 const buildSolidConfig = (): Config => {
 	return {
