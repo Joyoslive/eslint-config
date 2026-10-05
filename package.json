@@ -1,7 +1,7 @@
 {
 	"name": "@joyosdev/eslint",
 	"version": "1.0.0",
-	"description": "Composable ESLint configuration for JavaScript, TypeScript, and Solid.",
+	"description": "Just my personal eslint config, a constant work-in-progress",
 	"type": "module",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
