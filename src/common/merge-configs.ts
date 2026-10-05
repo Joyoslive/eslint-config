@@ -1,4 +1,4 @@
-import type { Config } from '../types.ts';
+import type { Config } from '../../types.ts';
 
 const mergeConfigs = (...configs: Config[]): Config => {
 	return configs.reduce<Config>((merged, config) => ({
