@@ -1,13 +1,12 @@
 import type { Config } from '../types.ts';
-import mergeConfigs from '../util/merge-configs.ts';
 import solid from 'eslint-plugin-solid';
 import prefixKeys from '../util/prefix-keys.ts';
 
-const buildSolidConfig = (config: Config): Config => {
-	return mergeConfigs(config, {
+const buildSolidConfig = (): Config => {
+	return {
 		plugins: { solid },
 		rules: prefixKeys('solid/', getRules())
-	});
+	};
 };
 
 export default buildSolidConfig;

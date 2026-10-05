@@ -2,53 +2,42 @@ import type { Config } from '../types.ts';
 import prefixKeys from '../util/prefix-keys.ts';
 import tseslint from 'typescript-eslint';
 
-const buildTsConfig = (prev: Readonly<Config>) => {
-	const newConfig = structuredClone(prev) as Config;
-	removeShadowedRules(newConfig);
-
-	newConfig.files?.push('**/*.ts');
-
-	newConfig.plugins ??= {};
-	newConfig.plugins['@typescript-eslint'] = tseslint.plugin;
-
-	newConfig.rules = {
-		...newConfig.rules,
-		...prefixKeys('@typescript-eslint/', getRules())
+const buildTsConfig = (): Config => {
+	return {
+		files: ['**/*.ts'],
+		plugins: { '@typescript-eslint': tseslint.plugin },
+		rules: {
+			...getShadowedRules(),
+			...prefixKeys('@typescript-eslint/', getRules())
+		},
+		languageOptions: {
+			parser: tseslint.parser,
+			parserOptions: { projectService: { allowDefaultProject: ['eslint.config.mjs'] } }
+		}
 	};
-
-	newConfig.languageOptions = {
-		parser: tseslint.parser,
-		parserOptions: { projectService: { allowDefaultProject: ['eslint.config.mjs'] } }
-	};
-
-	return newConfig;
 };
 
 export default buildTsConfig;
 
-const removeShadowedRules = (config: Config) => {
-	const rules = config.rules;
+const getShadowedRules = (): Exclude<Config['rules'], undefined> => {
+	return {
+		// Covered by ts compiler
+		'consistent-return': ['off'],
+		'no-invalid-this': ['off'],
+		'no-redeclare': ['off'],
 
-	if (rules == null) {
-		return;
-	}
-
-	// Covered by ts compiler
-	delete rules['consistent-return'];
-	delete rules['no-invalid-this'];
-	delete rules['no-redeclare'];
-
-	// Covered by tseslint
-	delete rules['no-unused-private-class-members'];
-	delete rules['no-unused-vars'];
-	delete rules['default-param-last'];
-	delete rules['default-case-last'];
-	delete rules['no-implied-eval'];
-	delete rules['no-loop-func'];
-	delete rules['no-throw-literal']; // @typescript-eslint/only-throw-error
-	delete rules['no-unused-expressions'];
-	delete rules['no-useless-constructor'];
-	delete rules['prefer-promise-reject-errors'];
+		// Covered by tseslint
+		'no-unused-private-class-members': ['off'],
+		'no-unused-vars': ['off'],
+		'default-param-last': ['off'],
+		'default-case-last': ['off'],
+		'no-implied-eval': ['off'],
+		'no-loop-func': ['off'],
+		'no-throw-literal': ['off'], // @typescript-eslint/only-throw-error
+		'no-unused-expressions': ['off'],
+		'no-useless-constructor': ['off'],
+		'prefer-promise-reject-errors': ['off']
+	};
 };
 
 const getRules = (): Exclude<Config['rules'], undefined> => {

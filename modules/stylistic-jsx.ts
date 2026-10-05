@@ -1,15 +1,11 @@
 import type { Config } from '../types.ts';
-import mergeConfigs from '../util/merge-configs.ts';
 import prefixKeys from '../util/prefix-keys.ts';
 
-const buildStylisticJsxConfig = (config: Config, options?: { typescript?: boolean }): Config => {
-	return mergeConfigs(
-		config,
-		{
-			files: [...['**/*.jsx'], ...options?.typescript === true ? ['**/*.tsx'] : []],
-			rules: prefixKeys('stylistic/', getRules())
-		}
-	);
+const buildStylisticJsxConfig = (options?: { typescript?: boolean }): Config => {
+	return {
+		files: ['**/*.jsx', ...options?.typescript === true ? ['**/*.tsx'] : []],
+		rules: prefixKeys('stylistic/', getRules())
+	};
 };
 
 export default buildStylisticJsxConfig;

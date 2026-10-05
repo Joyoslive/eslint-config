@@ -4,27 +4,32 @@ import buildStylisticJsxConfig from './modules/stylistic-jsx.ts';
 import buildTsConfig from './modules/typescript.ts';
 import type { ModuleName, Config } from './types.ts';
 import buildSolidConfig from './modules/solid.ts';
+import mergeConfigs from './util/merge-configs.ts';
 
 const buildConfig = (modules: Partial<Record<ModuleName, boolean>>): Config => {
-	let config = modules.base === true ? createBaseConfig() : {};
+	const configs: Config[] = [];
+
+	if (modules.base === true) {
+		configs.push(createBaseConfig());
+	}
 
 	if (modules.typescript === true) {
-		config = buildTsConfig(config);
+		configs.push(buildTsConfig());
 	}
 
 	if (modules.stylistic === true) {
-		config = buildStylisticConfig(config);
+		configs.push(buildStylisticConfig());
 	}
 
 	if (modules.stylistic && modules.solid /* || modules.react */) {
-		config = buildStylisticJsxConfig(config, { typescript: 'typescript' in modules });
+		configs.push(buildStylisticJsxConfig({ typescript: modules.typescript === true }));
 	}
 
 	if (modules.solid === true) {
-		config = buildSolidConfig(config);
+		configs.push(buildSolidConfig());
 	}
 
-	return config;
+	return mergeConfigs(...configs);
 };
 
 export default buildConfig;

@@ -1,13 +1,12 @@
 import type { Config, Rules } from '../types.ts';
 import stylistic from '@stylistic/eslint-plugin';
 import prefixKeys from '../util/prefix-keys.ts';
-import mergeConfigs from '../util/merge-configs.ts';
 
-const buildStylisticConfig = (config: Config): Config => {
-	return mergeConfigs(config, {
+const buildStylisticConfig = (): Config => {
+	return {
 		plugins: { stylistic },
 		rules: prefixKeys('stylistic/', getRules())
-	});
+	};
 };
 
 export default buildStylisticConfig;
