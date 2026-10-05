@@ -25,11 +25,17 @@ const getRules = (): Exclude<Config['rules'], undefined> => {
 		'jsx-equals-spacing': ['warn', 'never'],
 		'jsx-first-prop-new-line': ['warn', 'multiline'],
 		'jsx-function-call-newline': ['warn', 'multiline'],
+		'jsx-indent': ['off'],
 		'jsx-indent-props': ['warn', 'tab'],
 		'jsx-max-props-per-line': ['warn', { maximum: 3 }],
+		'jsx-newline': ['off'],
 		'jsx-one-expression-per-line': ['warn', { allow: 'single-line' }],
+		'jsx-pascal-case': ['off'],
+		'jsx-props-no-multi-spaces': ['off'],
+		'exp-jsx-props-style': ['off'],
 		'jsx-quotes': ['warn', 'prefer-single'],
 		'jsx-self-closing-comp': ['off'], // Covered by solid-eslint
+		'jsx-sort-props': ['off'],
 		'jsx-tag-spacing': [
 			'warn',
 			{
